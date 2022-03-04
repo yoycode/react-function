@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
 import axios from 'axios'
+import Post from './components/Post.js'
 
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
           console.error(user_err);
         })
       );
-  }, [])
+  }, [])  // created
 
   const postByUser = (user) => {
     axios
@@ -50,19 +51,6 @@ function App() {
         headers: { "app-id": process.env.REACT_APP_API_KEY }
       })
       .then(response => {
-        setPost([...response.data.data])
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-  const postByTag = tag => {
-    axios
-      .get(`https://dummyapi.io/data/v1/tag/${tag}/post`, {
-        headers: { "app-id": process.env.REACT_APP_API_KEY }
-      })
-      .then(response => {
-        setSelectedTag(tag)
         setPost([...response.data.data])
       })
       .catch(error => {
@@ -102,30 +90,8 @@ function App() {
       </Grid>
       <Grid item xs={9}>
         {selectedTag ? <Chip label={selectedTag} onDelete={() => setSelectedTag('')} /> : null}
-        {post.map(post => {
-          return <div key={post.id} style={{ display: 'flex', gap: '8px', padding: '8px' }}>
-            <img src={`${post.image}`} style={{ width: "80px", height: "80px" }} />
-            <div>
-              <div>{post.text}</div>
-              <div style={{ display: 'flex', gap: '5px' }}>
-                {post.tags.map((tag, idx) => {
-                  return <Chip onClick={() => postByTag(tag)} key={idx} label={tag} variant="outlined" size="small" />
-                })}
-              </div>
-              <span>
-                {(() => {
-                  if (post.likes > 50) return <span>🧡</span>
-                  else if (post.likes > 20) return <span>💛</span>
-                  else if (post.likes > 10) return <span>💚</span>
-                  else return <span>💙</span>
-                })()}
-                <span>{post.likes}</span>
-              </span>
-            </div>
-            <div style={{ marginLeft: 'auto', whiteSpace: 'nowrap' }}>
-              {post.owner.firstName}, {post.owner.lastName}
-            </div>
-          </div>
+        {post.map((post, idx) => {
+          return <Post post={post} key={idx} />
         })}
       </Grid>
     </Grid>
