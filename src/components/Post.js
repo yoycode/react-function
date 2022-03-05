@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
 import axios from 'axios'
 
@@ -23,6 +24,7 @@ const Post = (props) => {
       <img src={`${props.post.image}`} style={{ width: "80px", height: "80px" }} />
       <div>
         <div>{props.post.text}</div>
+        <Link to={`/detail/${props.post.id}`}>dd</Link>
         <div style={{ display: 'flex', gap: '5px' }}>
           {props.post.tags.map((tag, idx) => {
             return <Chip onClick={() => postByTag(tag)} key={idx} label={tag} variant="outlined" size="small" />
