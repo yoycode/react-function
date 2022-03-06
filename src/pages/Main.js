@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import axios from 'axios'
 import Chip from '@mui/material/Chip';
 import Post from '../components/Post.js'
+import '../App.css'
 
 
 const Main = () => {
@@ -48,8 +49,8 @@ const Main = () => {
   return <>
     <Grid item xs={3}>
       {user.map(user => {
-        return <div onClick={() => postByUser(user.id)} key={user.id} style={{ display: 'flex', marginBottom: '5px' }}>
-          <img src={`${user.picture}`} style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
+        return <div onClick={() => postByUser(user.id)} key={user.id} className="user-wrapper">
+          <img src={`${user.picture}`} className="user-img" />
           <div>
             {user.firstName}, {user.lastName}
           </div>

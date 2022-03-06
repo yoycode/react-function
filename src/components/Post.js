@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
 import axios from 'axios'
+import '../App.css';
 
 const Post = (props) => {
   let [post, setPost] = useState([]);
@@ -20,17 +21,16 @@ const Post = (props) => {
       });
   }
   return (
-    <div key={props.post.id} style={{ display: 'flex', gap: '8px', padding: '8px' }}>
-      <img src={`${props.post.image}`} style={{ width: "80px", height: "80px" }} />
+    <div key={props.post.id} className="post-wrapper">
+      <img src={`${props.post.image}`} className="post-thumbnail" />
       <div>
-        <div>{props.post.text}</div>
-        <Link to={`/detail/${props.post.id}`}>dd</Link>
-        <div style={{ display: 'flex', gap: '5px' }}>
+        <Link to={`/detail/${props.post.id}`}>{props.post.text}</Link>
+        <div className="post-tags">
           {props.post.tags.map((tag, idx) => {
             return <Chip onClick={() => postByTag(tag)} key={idx} label={tag} variant="outlined" size="small" />
           })}
         </div>
-        <span>
+        <span class="post-like">
           {(() => {
             if (props.post.likes > 50) return <span>🧡</span>
             else if (props.post.likes > 20) return <span>💛</span>
@@ -40,8 +40,9 @@ const Post = (props) => {
           <span>{props.post.likes}</span>
         </span>
       </div>
-      <div style={{ marginLeft: 'auto', whiteSpace: 'nowrap' }}>
-        {props.post.owner.firstName}, {props.post.owner.lastName}
+      <div className="post-owner">
+        <img src={`${props.post.owner.picture}`} className="post-owner-img" />
+        <div>{props.post.owner.firstName}, {props.post.owner.lastName}</div>
       </div>
     </div>
   );
